@@ -1,0 +1,18 @@
+private bool isEyeOpen(FullObjectDetection shape, bool leftEye)
+{
+    int[] L = { 36, 37, 38, 39, 40, 41 };
+    int[] R = { 42, 43, 44, 45, 46, 47 };
+    int[] eye = leftEye ? L : R;
+    double A = Dist(shape.GetPart((uint)eye[1]), shape.GetPart((uint)eye[5]));
+    double B = Dist(shape.GetPart((uint)eye[2]), shape.GetPart((uint)eye[4]));
+    double C = Dist(shape.GetPart((uint)eye[0]), shape.GetPart((uint)eye[3]));
+    double EAR = (A + B) / (2.0 * C);
+    return EAR > 0.22;
+        }
+//not working well with mongolid faces
+private double Dist(DlibDotNet.Point p1, DlibDotNet.Point p2)
+{
+    double dx = p1.X - p2.X;
+    double dy = p1.Y - p2.Y;
+    return Math.Sqrt(dx * dx + dy * dy);
+}

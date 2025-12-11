@@ -1,0 +1,22 @@
+private double Dist(DlibDotNet.Point p1, DlibDotNet.Point p2)
+{
+    double dx = p1.X - p2.X;
+    double dy = p1.Y - p2.Y;
+    return Math.Sqrt(dx * dx + dy * dy);
+}
+private bool IsMouthOpen(FullObjectDetection shape)
+{
+    // Vertical distances
+    double A = Dist(shape.GetPart(51), shape.GetPart(57));
+    double B = Dist(shape.GetPart(50), shape.GetPart(58));
+    double C = Dist(shape.GetPart(52), shape.GetPart(56));
+
+    // Horizontal mouth width
+    double D = Dist(shape.GetPart(48), shape.GetPart(54));
+
+    // Mouth Aspect Ratio (MAR)
+    double MAR = (A + B + C) / (3.0 * D);
+
+    // Threshold (tweak if needed)
+    return MAR > 0.65;
+}
